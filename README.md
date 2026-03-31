@@ -14,7 +14,7 @@ This is a Machine Learning web app that predicts student marks based on study ho
 - Pandas
 
 ## 🌐 Live App
-👉 https://student-performance-xxxxx.streamlit.app
+👉 https://student-performance-xwndr3aciydphos8oigjz4.streamlit.app/
 
 ## 📂 Project Structure
 - app.py → Main application
