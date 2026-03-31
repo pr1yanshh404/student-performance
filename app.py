@@ -32,5 +32,6 @@ if st.button("Show Graph"):
     plt.title("Marks vs Study Hours")
 
     st.pyplot(plt)
+    
 if hours == 0 or attendance == 0:
     st.warning("⚠️ Please enter valid inputs")
