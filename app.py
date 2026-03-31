@@ -20,14 +20,17 @@ if st.button("🚀 Predict"):
     result = model.predict([[hours, attendance]])
     st.success(f"🎯 Predicted Marks: {result[0]:.2f}")
 
-import pandas as pd
+import matplotlib.pyplot as plt
 
-if st.button("📈 Show Graph"):
-    x = list(range(0, 12))
-    y = [model.predict([[i, attendance]])[0] for i in x]
+if st.button("Show Graph"):
+    hours_list = list(range(0, 13))
+    predictions = [model.predict([[h, attendance]])[0] for h in hours_list]
 
-    df = pd.DataFrame({"Study Hours": x, "Marks": y})
-    st.line_chart(df.set_index("Study Hours"))
+    plt.plot(hours_list, predictions)
+    plt.xlabel("Study Hours")
+    plt.ylabel("Predicted Marks")
+    plt.title("Marks vs Study Hours")
 
+    st.pyplot(plt)
 if hours == 0 or attendance == 0:
     st.warning("⚠️ Please enter valid inputs")
