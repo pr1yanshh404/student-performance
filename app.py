@@ -1,37 +1,63 @@
 import streamlit as st
 import pickle
+import matplotlib.pyplot as plt
 
-# Page config
-st.set_page_config(page_title="Student Predictor", page_icon="📊")
+# -----------------------------
+# Page Config
+# -----------------------------
+st.set_page_config(
+    page_title="Student Marks Predictor",
+    page_icon="📊",
+    layout="centered"
+)
 
-# Load model
+# -----------------------------
+# Load Model
+# -----------------------------
 model = pickle.load(open("model.pkl", "rb"))
 
-# Title + description
+# -----------------------------
+# Title & Description
+# -----------------------------
 st.title("📊 Student Marks Predictor")
 st.markdown("Predict student marks based on study hours and attendance.")
 
+# -----------------------------
 # Inputs
-hours = st.slider("Study Hours", 0, 12, 1)
-attendance = st.slider("Attendance (%)", 0, 100, 50)
+# -----------------------------
+hours = st.slider("📚 Study Hours", 0, 12, 1)
+attendance = st.slider("📅 Attendance (%)", 0, 100, 50)
 
+# -----------------------------
 # Prediction
+# -----------------------------
 if st.button("🚀 Predict"):
-    result = model.predict([[hours, attendance]])
-    st.success(f"🎯 Predicted Marks: {result[0]:.2f}")
+    if hours == 0 or attendance == 0:
+        st.warning("⚠️ Please enter valid inputs")
+    else:
+        result = model.predict([[hours, attendance]])
+        st.success(f"🎯 Predicted Marks: {result[0]:.2f}")
 
-import matplotlib.pyplot as plt
+# -----------------------------
+# Graph Section
+# -----------------------------
+st.markdown("---")
+st.subheader("📈 Visualize Performance")
 
-if st.button("Show Graph"):
+if st.button("📊 Show Graph"):
     hours_list = list(range(0, 13))
     predictions = [model.predict([[h, attendance]])[0] for h in hours_list]
 
-    plt.plot(hours_list, predictions)
-    plt.xlabel("Study Hours")
-    plt.ylabel("Predicted Marks")
-    plt.title("Marks vs Study Hours")
+    fig, ax = plt.subplots()
+    ax.plot(hours_list, predictions, marker='o')
+    ax.set_xlabel("Study Hours")
+    ax.set_ylabel("Predicted Marks")
+    ax.set_title("Marks vs Study Hours")
 
-    st.pyplot(plt)
-    
-if hours == 0 or attendance == 0:
-    st.warning("⚠️ Please enter valid inputs")
+    st.pyplot(fig)
+
+# -----------------------------
+# Footer
+# -----------------------------
+st.markdown("---")
+st.caption("Built by Priyansh 🚀")
